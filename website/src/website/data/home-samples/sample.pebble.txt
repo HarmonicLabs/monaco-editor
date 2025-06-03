@@ -1,0 +1,54 @@
+/*
+	This is a sample pebble file
+*/
+
+
+struct Datum {
+    owner: string,
+}
+
+struct Animal {
+    Dog {
+        name: string,
+        barksCount: int,
+    }
+    Cat {
+        name: string,
+        color: string,
+    }
+    Fish {
+        name: string,
+    }
+}
+
+
+let a = 0;
+let b = 1;
+let c = 2;
+
+for (let i = 0; i < 10; i++) {
+    a += 1;
+}
+
+
+
+/* Folding markers */
+#region Initialization
+let x = 10
+let y = 20
+#endregion
+
+#region Calculation
+let sum = x + y
+print("Sum: " + sum)
+#endregion
+
+
+/* Conditional statements */
+if (a === 1) {
+    print("Condition passes")
+} else {
+    print("Failing")
+}
+
+
