@@ -1,16 +1,16 @@
 {
 	"name": "@harmoniclabs/monaco-editor",
-	"version": "0.52.0",
+	"version": "0.52.1",
 	"vscodeRef": "493330cdc6475247184ea459c66776c3da12cd2d",
 	"description": "A browser based code editor",
-	"homepage": "https://github.com/microsoft/monaco-editor",
+	"homepage": "https://github.com/HarmonicLabs/monaco-editor/",
 	"author": "Microsoft Corporation",
 	"license": "MIT",
 	"scripts": {
 		"import-typescript": "ts-node ./build/importTypescript",
 		"playwright-install": "node ./node_modules/playwright/install.js",
 		"playwright-install-deps": "playwright install-deps",
-		"postinstall": "ts-node ./build/postinstall",
+		"prepare": "ts-node ./build/postinstall",
 		"prettier-check": "prettier --check .",
 		"prettier": "prettier --write .",
 		"pretty-quick": "pretty-quick --staged",
@@ -33,7 +33,7 @@
 	"module": "./esm/vs/editor/editor.main.js",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/microsoft/monaco-editor"
+		"url": "https://github.com/HarmonicLabs/monaco-editor/"
 	},
 	"devDependencies": {
 		"@types/mocha": "^9.1.0",
