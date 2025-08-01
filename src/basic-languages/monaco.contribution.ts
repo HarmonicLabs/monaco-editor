@@ -84,3 +84,4 @@ import './vb/vb.contribution';
 import './wgsl/wgsl.contribution';
 import './xml/xml.contribution';
 import './yaml/yaml.contribution';
+import './pebble/pebble.contribution';
