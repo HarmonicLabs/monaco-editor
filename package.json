@@ -11,7 +11,7 @@
 		"import-typescript": "ts-node ./build/importTypescript",
 		"playwright-install": "node ./node_modules/playwright/install.js",
 		"playwright-install-deps": "playwright install-deps",
-		"postinstall": "ts-node ./build/postinstall",
+		"postinstall": "tsx ./build/postinstall",
 		"prettier-check": "prettier --check .",
 		"prettier": "prettier --write .",
 		"pretty-quick": "pretty-quick --staged",
@@ -48,7 +48,7 @@
 		"file-loader": "^6.2.0",
 		"glob": "^7.2.0",
 		"http-server": "^14.1.1",
-		"husky": "^7.0.4",
+		"husky": "^9.1.7",
 		"jsdom": "^19.0.0",
 		"jsonc-parser": "^3.0.0",
 		"mocha": "^9.2.0",
@@ -62,7 +62,7 @@
 		"shelljs": "^0.8.5",
 		"style-loader": "^3.3.1",
 		"terser": "^5.14.2",
-		"ts-node": "^10.9.2",
+		"tsx": "^4.20.3",
 		"vite": "^3.2.8",
 		"vscode-css-languageservice": "6.2.14",
 		"vscode-html-languageservice": "5.2.0",
@@ -78,6 +78,6 @@
 		"buffer": false
 	},
 	"dependencies": {
-		"typescript": "^5.4.5"
+		"typescript": "5.4.5"
 	}
 }
