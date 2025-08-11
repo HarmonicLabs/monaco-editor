@@ -1,40 +1,44 @@
 {
 	"name": "@harmoniclabs/monaco-editor",
-	"version": "0.52.0",
+	"version": "0.52.1",
 	"vscodeRef": "493330cdc6475247184ea459c66776c3da12cd2d",
 	"description": "A browser based code editor",
-	"homepage": "https://github.com/microsoft/monaco-editor",
+	"homepage": "https://github.com/HarmonicLabs/monaco-editor",
 	"author": "Microsoft Corporation",
 	"license": "MIT",
 	"scripts": {
-		"import-typescript": "ts-node ./build/importTypescript",
+		"import-typescript": "tsx ./build/importTypescript",
 		"playwright-install": "node ./node_modules/playwright/install.js",
 		"playwright-install-deps": "playwright install-deps",
-		"postinstall": "ts-node ./build/postinstall",
+		"postinstall": "tsx ./build/postinstall",
 		"prettier-check": "prettier --check .",
 		"prettier": "prettier --write .",
 		"pretty-quick": "pretty-quick --staged",
-		"simpleserver": "ts-node ./build/simpleserver",
-		"package-for-smoketest-webpack": "ts-node ./test/smoke/package-webpack",
-		"package-for-smoketest-webpack-cross-origin": "ts-node ./test/smoke/package-webpack --cross-origin",
-		"package-for-smoketest-esbuild": "ts-node ./test/smoke/package-esbuild",
-		"package-for-smoketest-vite": "ts-node ./test/smoke/package-vite",
+		"simpleserver": "tsx ./build/simpleserver",
+		"package-for-smoketest-webpack": "tsx ./test/smoke/package-webpack",
+		"package-for-smoketest-webpack-cross-origin": "tsx ./test/smoke/package-webpack --cross-origin",
+		"package-for-smoketest-esbuild": "tsx ./test/smoke/package-esbuild",
+		"package-for-smoketest-vite": "tsx ./test/smoke/package-vite",
 		"smoketest": "node ./test/smoke/runner.js",
 		"smoketest-debug": "node ./test/smoke/runner.js --debug-tests",
-		"test": "mocha test/unit/all.js && ts-node ./build/check-samples",
-		"deps-all-remove": "ts-node ./build/npm/removeAll",
-		"deps-all-install": "ts-node ./build/npm/installAll",
+		"test": "mocha test/unit/all.js && tsx ./build/check-samples",
+		"deps-all-remove": "tsx ./build/npm/removeAll",
+		"deps-all-install": "tsx ./build/npm/installAll",
 		"update-actions": "pin-github-action ./.github/workflows/website.yml",
 		"watch": "tsc -w -p ./src",
-		"build": "ts-node ./build/build-languages",
-		"build-monaco-editor": "npm run build && ts-node ./build/build-monaco-editor"
+		"build": "tsx ./build/build-languages",
+		"build-monaco-editor": "npm run build && tsx ./build/build-monaco-editor"
 	},
 	"typings": "./esm/vs/editor/editor.api.d.ts",
 	"module": "./esm/vs/editor/editor.main.js",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/microsoft/monaco-editor"
+		"url": "https://github.com/HarmonicLabs/monaco-editor"
 	},
+	"files": [
+		"out/monaco-editor",
+		"build/"
+	],
 	"devDependencies": {
 		"@types/mocha": "^9.1.0",
 		"@types/shelljs": "^0.8.11",
@@ -47,7 +51,7 @@
 		"file-loader": "^6.2.0",
 		"glob": "^7.2.0",
 		"http-server": "^14.1.1",
-		"husky": "^7.0.4",
+		"husky": "^9.1.7",
 		"jsdom": "^19.0.0",
 		"jsonc-parser": "^3.0.0",
 		"mocha": "^9.2.0",
@@ -61,8 +65,7 @@
 		"shelljs": "^0.8.5",
 		"style-loader": "^3.3.1",
 		"terser": "^5.14.2",
-		"ts-node": "^10.9.2",
-		"typescript": "^5.4.5",
+		"tsx": "^4.20.3",
 		"vite": "^3.2.8",
 		"vscode-css-languageservice": "6.2.14",
 		"vscode-html-languageservice": "5.2.0",
@@ -76,5 +79,9 @@
 	"alias": {
 		"process": false,
 		"buffer": false
+	},
+	"dependencies": {
+		"typescript": "5.4.5",
+		"tsx": "^4.20.3"
 	}
 }

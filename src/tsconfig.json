@@ -1,14 +1,15 @@
 {
 	"compilerOptions": {
 		"declaration": true,
-		"lib": ["dom", "es5", "es2015.collection", "es2015.promise", "es2015.iterable"],
+		"lib": ["dom", "ES2015", "es2015.collection", "es2015.promise", "es2015.iterable"],
 		"module": "amd",
 		"moduleResolution": "node",
 		"outDir": "../out/languages/amd-tsc",
 		"strict": true,
-		"target": "es5",
+		"target": "ES2015",
 		"sourceMap": true,
 		"allowJs": true,
-		"checkJs": false
+		"checkJs": false,
+		"skipLibCheck": true
 	}
 }
