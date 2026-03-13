@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.1.0-dev1(584153b8cfacf9f26e0b0ffed5942f3277b49869)
+ * Version: 0.1.0-dev3(5f53c74686d6eed60f9d2fcfdf2a6ad35b446fcf)
  * Released under the MIT license
  * https://github.com/microsoft/monaco-editor/blob/main/LICENSE.txt
  *-----------------------------------------------------------------------------*/
@@ -67754,9 +67754,9 @@ ${lanes.join("\n")}
             const elem = getElaborationElementForJsxChild(child, childrenNameType, getInvalidTextualChildDiagnostic);
             if (elem) {
               result = elaborateElementwise(
-                function* () {
+                (function* () {
                   yield elem;
-                }(),
+                })(),
                 source,
                 target,
                 relation,
@@ -170265,7 +170265,7 @@ ${newComment.split("\n").map((c) => ` * ${c}`).join("\n")}
               return !!(symbol2.flags & 1920) && !((_a = symbol2.declarations) == null ? void 0 : _a.every((d) => d.parent === node.parent));
             } : isRhsOfImportDeclaration ? (
               // Any kind is allowed when dotting off namespace in internal import equals declaration
-              (symbol2) => isValidTypeAccess(symbol2) || isValidValueAccess(symbol2)
+              ((symbol2) => isValidTypeAccess(symbol2) || isValidValueAccess(symbol2))
             ) : isTypeLocation || insideJsDocTagTypeExpression ? isValidTypeAccess : isValidValueAccess;
             for (const exportedSymbol of exportedSymbols) {
               if (isValidAccess(exportedSymbol)) {
@@ -242579,8 +242579,7 @@ var TypeScriptWorker = class _TypeScriptWorker {
     switch (options.target) {
       case 99:
         const esnext = "lib.esnext.full.d.ts";
-        if (esnext in libFileMap || esnext in this._extraLibs)
-          return esnext;
+        if (esnext in libFileMap || esnext in this._extraLibs) return esnext;
       case 7:
       case 6:
       case 5:
@@ -242593,6 +242592,7 @@ var TypeScriptWorker = class _TypeScriptWorker {
           return eslib;
         }
         return "lib.es6.d.ts";
+      // We don't use lib.es2015.full.d.ts due to breaking change.
       case 1:
       case 0:
         return "lib.d.ts";

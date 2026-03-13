@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.1.0-dev1(584153b8cfacf9f26e0b0ffed5942f3277b49869)
+ * Version: 0.1.0-dev3(5f53c74686d6eed60f9d2fcfdf2a6ad35b446fcf)
  * Released under the MIT license
  * https://github.com/microsoft/monaco-editor/blob/main/LICENSE.txt
  *-----------------------------------------------------------------------------*/
@@ -1827,6 +1827,7 @@ function createScanner(input, initialOffset = 0, initialState = ScannerState.Wit
         }
         state = ScannerState.WithinTag;
         return internalScan();
+      // no advance yet - jump to WithinTag
       case ScannerState.BeforeAttributeValue:
         if (stream.skipWhitespace()) {
           return finishToken(offset, TokenType.Whitespace);
@@ -1862,6 +1863,7 @@ function createScanner(input, initialOffset = 0, initialState = ScannerState.Wit
         state = ScannerState.WithinTag;
         hasSpaceAfterTag = false;
         return internalScan();
+      // no advance yet - jump to WithinTag
       case ScannerState.WithinScriptContent:
         let sciptState = 1;
         while (!stream.eos()) {
@@ -1893,6 +1895,7 @@ function createScanner(input, initialOffset = 0, initialState = ScannerState.Wit
           return finishToken(offset, TokenType.Script);
         }
         return internalScan();
+      // no advance yet - jump to content
       case ScannerState.WithinStyleContent:
         stream.advanceUntilRegExp(/<\/style/i);
         state = ScannerState.WithinContent;
@@ -5438,7 +5441,7 @@ var legacy_beautify_css;
     ,
     /* 2 */
     /***/
-    function(module) {
+    (function(module) {
       function OutputLine(parent) {
         this.__parent = parent;
         this.__character_count = 0;
@@ -5755,13 +5758,13 @@ var legacy_beautify_css;
         }
       };
       module.exports.Output = Output;
-    },
+    }),
     ,
     ,
     ,
     /* 6 */
     /***/
-    function(module) {
+    (function(module) {
       function Options(options, merge_child_field) {
         this.raw_options = _mergeOpts(options, merge_child_field);
         this.disabled = this._get_boolean("disabled");
@@ -5881,11 +5884,11 @@ var legacy_beautify_css;
       module.exports.Options = Options;
       module.exports.normalizeOpts = _normalizeOpts;
       module.exports.mergeOpts = _mergeOpts;
-    },
+    }),
     ,
     /* 8 */
     /***/
-    function(module) {
+    (function(module) {
       var regexp_has_sticky = RegExp.prototype.hasOwnProperty("sticky");
       function InputScanner(input_string) {
         this.__input = input_string || "";
@@ -6014,14 +6017,14 @@ var legacy_beautify_css;
         return start >= testVal.length && this.__input.substring(start - testVal.length, start).toLowerCase() === testVal;
       };
       module.exports.InputScanner = InputScanner;
-    },
+    }),
     ,
     ,
     ,
     ,
     /* 13 */
     /***/
-    function(module) {
+    (function(module) {
       function Directives(start_block_pattern, end_block_pattern) {
         start_block_pattern = typeof start_block_pattern === "string" ? start_block_pattern : start_block_pattern.source;
         end_block_pattern = typeof end_block_pattern === "string" ? end_block_pattern : end_block_pattern.source;
@@ -6046,11 +6049,11 @@ var legacy_beautify_css;
         return input.readUntilAfter(this.__directives_end_ignore_pattern);
       };
       module.exports.Directives = Directives;
-    },
+    }),
     ,
     /* 15 */
     /***/
-    function(module, __unused_webpack_exports, __webpack_require__2) {
+    (function(module, __unused_webpack_exports, __webpack_require__2) {
       var Beautifier = __webpack_require__2(16).Beautifier, Options = __webpack_require__2(17).Options;
       function css_beautify2(source_text, options) {
         var beautifier = new Beautifier(source_text, options);
@@ -6060,10 +6063,10 @@ var legacy_beautify_css;
       module.exports.defaultOptions = function() {
         return new Options();
       };
-    },
+    }),
     /* 16 */
     /***/
-    function(module, __unused_webpack_exports, __webpack_require__2) {
+    (function(module, __unused_webpack_exports, __webpack_require__2) {
       var Options = __webpack_require__2(17).Options;
       var Output = __webpack_require__2(2).Output;
       var InputScanner = __webpack_require__2(8).InputScanner;
@@ -6464,10 +6467,10 @@ var legacy_beautify_css;
         return sweetCode;
       };
       module.exports.Beautifier = Beautifier;
-    },
+    }),
     /* 17 */
     /***/
-    function(module, __unused_webpack_exports, __webpack_require__2) {
+    (function(module, __unused_webpack_exports, __webpack_require__2) {
       var BaseOptions = __webpack_require__2(6).Options;
       function Options(options) {
         BaseOptions.call(this, options, "css");
@@ -6487,7 +6490,7 @@ var legacy_beautify_css;
       }
       Options.prototype = new BaseOptions();
       module.exports.Options = Options;
-    }
+    })
     /******/
   ];
   var __webpack_module_cache__ = {};
@@ -6522,7 +6525,7 @@ var legacy_beautify_html;
     ,
     /* 2 */
     /***/
-    function(module) {
+    (function(module) {
       function OutputLine(parent) {
         this.__parent = parent;
         this.__character_count = 0;
@@ -6839,10 +6842,10 @@ var legacy_beautify_html;
         }
       };
       module.exports.Output = Output;
-    },
+    }),
     /* 3 */
     /***/
-    function(module) {
+    (function(module) {
       function Token(type, text, newlines, whitespace_before) {
         this.type = type;
         this.text = text;
@@ -6857,12 +6860,12 @@ var legacy_beautify_html;
         this.directives = null;
       }
       module.exports.Token = Token;
-    },
+    }),
     ,
     ,
     /* 6 */
     /***/
-    function(module) {
+    (function(module) {
       function Options(options, merge_child_field) {
         this.raw_options = _mergeOpts(options, merge_child_field);
         this.disabled = this._get_boolean("disabled");
@@ -6982,11 +6985,11 @@ var legacy_beautify_html;
       module.exports.Options = Options;
       module.exports.normalizeOpts = _normalizeOpts;
       module.exports.mergeOpts = _mergeOpts;
-    },
+    }),
     ,
     /* 8 */
     /***/
-    function(module) {
+    (function(module) {
       var regexp_has_sticky = RegExp.prototype.hasOwnProperty("sticky");
       function InputScanner(input_string) {
         this.__input = input_string || "";
@@ -7115,10 +7118,10 @@ var legacy_beautify_html;
         return start >= testVal.length && this.__input.substring(start - testVal.length, start).toLowerCase() === testVal;
       };
       module.exports.InputScanner = InputScanner;
-    },
+    }),
     /* 9 */
     /***/
-    function(module, __unused_webpack_exports, __webpack_require__2) {
+    (function(module, __unused_webpack_exports, __webpack_require__2) {
       var InputScanner = __webpack_require__2(8).InputScanner;
       var Token = __webpack_require__2(3).Token;
       var TokenStream = __webpack_require__2(10).TokenStream;
@@ -7208,10 +7211,10 @@ var legacy_beautify_html;
       };
       module.exports.Tokenizer = Tokenizer;
       module.exports.TOKEN = TOKEN;
-    },
+    }),
     /* 10 */
     /***/
-    function(module) {
+    (function(module) {
       function TokenStream(parent_token) {
         this.__tokens = [];
         this.__tokens_length = this.__tokens.length;
@@ -7252,10 +7255,10 @@ var legacy_beautify_html;
         this.__tokens_length += 1;
       };
       module.exports.TokenStream = TokenStream;
-    },
+    }),
     /* 11 */
     /***/
-    function(module, __unused_webpack_exports, __webpack_require__2) {
+    (function(module, __unused_webpack_exports, __webpack_require__2) {
       var Pattern = __webpack_require__2(12).Pattern;
       function WhitespacePattern(input_scanner, parent) {
         Pattern.call(this, input_scanner, parent);
@@ -7319,10 +7322,10 @@ var legacy_beautify_html;
         return result;
       };
       module.exports.WhitespacePattern = WhitespacePattern;
-    },
+    }),
     /* 12 */
     /***/
-    function(module) {
+    (function(module) {
       function Pattern(input_scanner, parent) {
         this._input = input_scanner;
         this._starting_pattern = null;
@@ -7378,10 +7381,10 @@ var legacy_beautify_html;
       Pattern.prototype._update = function() {
       };
       module.exports.Pattern = Pattern;
-    },
+    }),
     /* 13 */
     /***/
-    function(module) {
+    (function(module) {
       function Directives(start_block_pattern, end_block_pattern) {
         start_block_pattern = typeof start_block_pattern === "string" ? start_block_pattern : start_block_pattern.source;
         end_block_pattern = typeof end_block_pattern === "string" ? end_block_pattern : end_block_pattern.source;
@@ -7406,10 +7409,10 @@ var legacy_beautify_html;
         return input.readUntilAfter(this.__directives_end_ignore_pattern);
       };
       module.exports.Directives = Directives;
-    },
+    }),
     /* 14 */
     /***/
-    function(module, __unused_webpack_exports, __webpack_require__2) {
+    (function(module, __unused_webpack_exports, __webpack_require__2) {
       var Pattern = __webpack_require__2(12).Pattern;
       var template_names = {
         django: false,
@@ -7555,13 +7558,13 @@ var legacy_beautify_html;
         return resulting_string;
       };
       module.exports.TemplatablePattern = TemplatablePattern;
-    },
+    }),
     ,
     ,
     ,
     /* 18 */
     /***/
-    function(module, __unused_webpack_exports, __webpack_require__2) {
+    (function(module, __unused_webpack_exports, __webpack_require__2) {
       var Beautifier = __webpack_require__2(19).Beautifier, Options = __webpack_require__2(20).Options;
       function style_html(html_source, options, js_beautify2, css_beautify2) {
         var beautifier = new Beautifier(html_source, options, js_beautify2, css_beautify2);
@@ -7571,10 +7574,10 @@ var legacy_beautify_html;
       module.exports.defaultOptions = function() {
         return new Options();
       };
-    },
+    }),
     /* 19 */
     /***/
-    function(module, __unused_webpack_exports, __webpack_require__2) {
+    (function(module, __unused_webpack_exports, __webpack_require__2) {
       var Options = __webpack_require__2(20).Options;
       var Output = __webpack_require__2(2).Output;
       var Tokenizer = __webpack_require__2(21).Tokenizer;
@@ -8206,10 +8209,10 @@ var legacy_beautify_html;
         return result;
       };
       module.exports.Beautifier = Beautifier;
-    },
+    }),
     /* 20 */
     /***/
-    function(module, __unused_webpack_exports, __webpack_require__2) {
+    (function(module, __unused_webpack_exports, __webpack_require__2) {
       var BaseOptions = __webpack_require__2(6).Options;
       function Options(options) {
         BaseOptions.call(this, options, "html");
@@ -8329,10 +8332,10 @@ var legacy_beautify_html;
       }
       Options.prototype = new BaseOptions();
       module.exports.Options = Options;
-    },
+    }),
     /* 21 */
     /***/
-    function(module, __unused_webpack_exports, __webpack_require__2) {
+    (function(module, __unused_webpack_exports, __webpack_require__2) {
       var BaseTokenizer = __webpack_require__2(9).Tokenizer;
       var BASETOKEN = __webpack_require__2(9).TOKEN;
       var Directives = __webpack_require__2(13).Directives;
@@ -8609,7 +8612,7 @@ var legacy_beautify_html;
       };
       module.exports.Tokenizer = Tokenizer;
       module.exports.TOKEN = TOKEN;
-    }
+    })
     /******/
   ];
   var __webpack_module_cache__ = {};
@@ -8777,21 +8780,17 @@ var LIB;
   "use strict";
   var t2 = { 470: (t3) => {
     function e2(t4) {
-      if ("string" != typeof t4)
-        throw new TypeError("Path must be a string. Received " + JSON.stringify(t4));
+      if ("string" != typeof t4) throw new TypeError("Path must be a string. Received " + JSON.stringify(t4));
     }
     function r2(t4, e3) {
       for (var r3, n3 = "", i = 0, o = -1, s = 0, h = 0; h <= t4.length; ++h) {
-        if (h < t4.length)
-          r3 = t4.charCodeAt(h);
+        if (h < t4.length) r3 = t4.charCodeAt(h);
         else {
-          if (47 === r3)
-            break;
+          if (47 === r3) break;
           r3 = 47;
         }
         if (47 === r3) {
-          if (o === h - 1 || 1 === s)
-            ;
+          if (o === h - 1 || 1 === s) ;
           else if (o !== h - 1 && 2 === s) {
             if (n3.length < 2 || 2 !== i || 46 !== n3.charCodeAt(n3.length - 1) || 46 !== n3.charCodeAt(n3.length - 2)) {
               if (n3.length > 2) {
@@ -8806,11 +8805,9 @@ var LIB;
               }
             }
             e3 && (n3.length > 0 ? n3 += "/.." : n3 = "..", i = 2);
-          } else
-            n3.length > 0 ? n3 += "/" + t4.slice(o + 1, h) : n3 = t4.slice(o + 1, h), i = h - o - 1;
+          } else n3.length > 0 ? n3 += "/" + t4.slice(o + 1, h) : n3 = t4.slice(o + 1, h), i = h - o - 1;
           o = h, s = 0;
-        } else
-          46 === r3 && -1 !== s ? ++s : s = -1;
+        } else 46 === r3 && -1 !== s ? ++s : s = -1;
       }
       return n3;
     }
@@ -8821,71 +8818,55 @@ var LIB;
       }
       return n3 = r2(n3, !i), i ? n3.length > 0 ? "/" + n3 : "/" : n3.length > 0 ? n3 : ".";
     }, normalize: function(t4) {
-      if (e2(t4), 0 === t4.length)
-        return ".";
+      if (e2(t4), 0 === t4.length) return ".";
       var n3 = 47 === t4.charCodeAt(0), i = 47 === t4.charCodeAt(t4.length - 1);
       return 0 !== (t4 = r2(t4, !n3)).length || n3 || (t4 = "."), t4.length > 0 && i && (t4 += "/"), n3 ? "/" + t4 : t4;
     }, isAbsolute: function(t4) {
       return e2(t4), t4.length > 0 && 47 === t4.charCodeAt(0);
     }, join: function() {
-      if (0 === arguments.length)
-        return ".";
+      if (0 === arguments.length) return ".";
       for (var t4, r3 = 0; r3 < arguments.length; ++r3) {
         var i = arguments[r3];
         e2(i), i.length > 0 && (void 0 === t4 ? t4 = i : t4 += "/" + i);
       }
       return void 0 === t4 ? "." : n2.normalize(t4);
     }, relative: function(t4, r3) {
-      if (e2(t4), e2(r3), t4 === r3)
-        return "";
-      if ((t4 = n2.resolve(t4)) === (r3 = n2.resolve(r3)))
-        return "";
-      for (var i = 1; i < t4.length && 47 === t4.charCodeAt(i); ++i)
-        ;
-      for (var o = t4.length, s = o - i, h = 1; h < r3.length && 47 === r3.charCodeAt(h); ++h)
-        ;
+      if (e2(t4), e2(r3), t4 === r3) return "";
+      if ((t4 = n2.resolve(t4)) === (r3 = n2.resolve(r3))) return "";
+      for (var i = 1; i < t4.length && 47 === t4.charCodeAt(i); ++i) ;
+      for (var o = t4.length, s = o - i, h = 1; h < r3.length && 47 === r3.charCodeAt(h); ++h) ;
       for (var a = r3.length - h, c = s < a ? s : a, f = -1, u = 0; u <= c; ++u) {
         if (u === c) {
           if (a > c) {
-            if (47 === r3.charCodeAt(h + u))
-              return r3.slice(h + u + 1);
-            if (0 === u)
-              return r3.slice(h + u);
-          } else
-            s > c && (47 === t4.charCodeAt(i + u) ? f = u : 0 === u && (f = 0));
+            if (47 === r3.charCodeAt(h + u)) return r3.slice(h + u + 1);
+            if (0 === u) return r3.slice(h + u);
+          } else s > c && (47 === t4.charCodeAt(i + u) ? f = u : 0 === u && (f = 0));
           break;
         }
         var l = t4.charCodeAt(i + u);
-        if (l !== r3.charCodeAt(h + u))
-          break;
+        if (l !== r3.charCodeAt(h + u)) break;
         47 === l && (f = u);
       }
       var g = "";
-      for (u = i + f + 1; u <= o; ++u)
-        u !== o && 47 !== t4.charCodeAt(u) || (0 === g.length ? g += ".." : g += "/..");
+      for (u = i + f + 1; u <= o; ++u) u !== o && 47 !== t4.charCodeAt(u) || (0 === g.length ? g += ".." : g += "/..");
       return g.length > 0 ? g + r3.slice(h + f) : (h += f, 47 === r3.charCodeAt(h) && ++h, r3.slice(h));
     }, _makeLong: function(t4) {
       return t4;
     }, dirname: function(t4) {
-      if (e2(t4), 0 === t4.length)
-        return ".";
-      for (var r3 = t4.charCodeAt(0), n3 = 47 === r3, i = -1, o = true, s = t4.length - 1; s >= 1; --s)
-        if (47 === (r3 = t4.charCodeAt(s))) {
-          if (!o) {
-            i = s;
-            break;
-          }
-        } else
-          o = false;
+      if (e2(t4), 0 === t4.length) return ".";
+      for (var r3 = t4.charCodeAt(0), n3 = 47 === r3, i = -1, o = true, s = t4.length - 1; s >= 1; --s) if (47 === (r3 = t4.charCodeAt(s))) {
+        if (!o) {
+          i = s;
+          break;
+        }
+      } else o = false;
       return -1 === i ? n3 ? "/" : "." : n3 && 1 === i ? "//" : t4.slice(0, i);
     }, basename: function(t4, r3) {
-      if (void 0 !== r3 && "string" != typeof r3)
-        throw new TypeError('"ext" argument must be a string');
+      if (void 0 !== r3 && "string" != typeof r3) throw new TypeError('"ext" argument must be a string');
       e2(t4);
       var n3, i = 0, o = -1, s = true;
       if (void 0 !== r3 && r3.length > 0 && r3.length <= t4.length) {
-        if (r3.length === t4.length && r3 === t4)
-          return "";
+        if (r3.length === t4.length && r3 === t4) return "";
         var h = r3.length - 1, a = -1;
         for (n3 = t4.length - 1; n3 >= 0; --n3) {
           var c = t4.charCodeAt(n3);
@@ -8894,26 +8875,22 @@ var LIB;
               i = n3 + 1;
               break;
             }
-          } else
-            -1 === a && (s = false, a = n3 + 1), h >= 0 && (c === r3.charCodeAt(h) ? -1 == --h && (o = n3) : (h = -1, o = a));
+          } else -1 === a && (s = false, a = n3 + 1), h >= 0 && (c === r3.charCodeAt(h) ? -1 == --h && (o = n3) : (h = -1, o = a));
         }
         return i === o ? o = a : -1 === o && (o = t4.length), t4.slice(i, o);
       }
-      for (n3 = t4.length - 1; n3 >= 0; --n3)
-        if (47 === t4.charCodeAt(n3)) {
-          if (!s) {
-            i = n3 + 1;
-            break;
-          }
-        } else
-          -1 === o && (s = false, o = n3 + 1);
+      for (n3 = t4.length - 1; n3 >= 0; --n3) if (47 === t4.charCodeAt(n3)) {
+        if (!s) {
+          i = n3 + 1;
+          break;
+        }
+      } else -1 === o && (s = false, o = n3 + 1);
       return -1 === o ? "" : t4.slice(i, o);
     }, extname: function(t4) {
       e2(t4);
       for (var r3 = -1, n3 = 0, i = -1, o = true, s = 0, h = t4.length - 1; h >= 0; --h) {
         var a = t4.charCodeAt(h);
-        if (47 !== a)
-          -1 === i && (o = false, i = h + 1), 46 === a ? -1 === r3 ? r3 = h : 1 !== s && (s = 1) : -1 !== r3 && (s = -1);
+        if (47 !== a) -1 === i && (o = false, i = h + 1), 46 === a ? -1 === r3 ? r3 = h : 1 !== s && (s = 1) : -1 !== r3 && (s = -1);
         else if (!o) {
           n3 = h + 1;
           break;
@@ -8921,64 +8898,53 @@ var LIB;
       }
       return -1 === r3 || -1 === i || 0 === s || 1 === s && r3 === i - 1 && r3 === n3 + 1 ? "" : t4.slice(r3, i);
     }, format: function(t4) {
-      if (null === t4 || "object" != typeof t4)
-        throw new TypeError('The "pathObject" argument must be of type Object. Received type ' + typeof t4);
-      return function(t5, e3) {
+      if (null === t4 || "object" != typeof t4) throw new TypeError('The "pathObject" argument must be of type Object. Received type ' + typeof t4);
+      return (function(t5, e3) {
         var r3 = e3.dir || e3.root, n3 = e3.base || (e3.name || "") + (e3.ext || "");
         return r3 ? r3 === e3.root ? r3 + n3 : r3 + "/" + n3 : n3;
-      }(0, t4);
+      })(0, t4);
     }, parse: function(t4) {
       e2(t4);
       var r3 = { root: "", dir: "", base: "", ext: "", name: "" };
-      if (0 === t4.length)
-        return r3;
+      if (0 === t4.length) return r3;
       var n3, i = t4.charCodeAt(0), o = 47 === i;
       o ? (r3.root = "/", n3 = 1) : n3 = 0;
-      for (var s = -1, h = 0, a = -1, c = true, f = t4.length - 1, u = 0; f >= n3; --f)
-        if (47 !== (i = t4.charCodeAt(f)))
-          -1 === a && (c = false, a = f + 1), 46 === i ? -1 === s ? s = f : 1 !== u && (u = 1) : -1 !== s && (u = -1);
-        else if (!c) {
-          h = f + 1;
-          break;
-        }
+      for (var s = -1, h = 0, a = -1, c = true, f = t4.length - 1, u = 0; f >= n3; --f) if (47 !== (i = t4.charCodeAt(f))) -1 === a && (c = false, a = f + 1), 46 === i ? -1 === s ? s = f : 1 !== u && (u = 1) : -1 !== s && (u = -1);
+      else if (!c) {
+        h = f + 1;
+        break;
+      }
       return -1 === s || -1 === a || 0 === u || 1 === u && s === a - 1 && s === h + 1 ? -1 !== a && (r3.base = r3.name = 0 === h && o ? t4.slice(1, a) : t4.slice(h, a)) : (0 === h && o ? (r3.name = t4.slice(1, s), r3.base = t4.slice(1, a)) : (r3.name = t4.slice(h, s), r3.base = t4.slice(h, a)), r3.ext = t4.slice(s, a)), h > 0 ? r3.dir = t4.slice(0, h - 1) : o && (r3.dir = "/"), r3;
     }, sep: "/", delimiter: ":", win32: null, posix: null };
     n2.posix = n2, t3.exports = n2;
   } }, e = {};
   function r(n2) {
     var i = e[n2];
-    if (void 0 !== i)
-      return i.exports;
+    if (void 0 !== i) return i.exports;
     var o = e[n2] = { exports: {} };
     return t2[n2](o, o.exports, r), o.exports;
   }
   r.d = (t3, e2) => {
-    for (var n2 in e2)
-      r.o(e2, n2) && !r.o(t3, n2) && Object.defineProperty(t3, n2, { enumerable: true, get: e2[n2] });
+    for (var n2 in e2) r.o(e2, n2) && !r.o(t3, n2) && Object.defineProperty(t3, n2, { enumerable: true, get: e2[n2] });
   }, r.o = (t3, e2) => Object.prototype.hasOwnProperty.call(t3, e2), r.r = (t3) => {
     "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(t3, Symbol.toStringTag, { value: "Module" }), Object.defineProperty(t3, "__esModule", { value: true });
   };
   var n = {};
   (() => {
     let t3;
-    if (r.r(n), r.d(n, { URI: () => f, Utils: () => P }), "object" == typeof process)
-      t3 = "win32" === process.platform;
+    if (r.r(n), r.d(n, { URI: () => f, Utils: () => P }), "object" == typeof process) t3 = "win32" === process.platform;
     else if ("object" == typeof navigator) {
       let e3 = navigator.userAgent;
       t3 = e3.indexOf("Windows") >= 0;
     }
     const e2 = /^\w[\w\d+.-]*$/, i = /^\//, o = /^\/\//;
     function s(t4, r2) {
-      if (!t4.scheme && r2)
-        throw new Error(`[UriError]: Scheme is missing: {scheme: "", authority: "${t4.authority}", path: "${t4.path}", query: "${t4.query}", fragment: "${t4.fragment}"}`);
-      if (t4.scheme && !e2.test(t4.scheme))
-        throw new Error("[UriError]: Scheme contains illegal characters.");
+      if (!t4.scheme && r2) throw new Error(`[UriError]: Scheme is missing: {scheme: "", authority: "${t4.authority}", path: "${t4.path}", query: "${t4.query}", fragment: "${t4.fragment}"}`);
+      if (t4.scheme && !e2.test(t4.scheme)) throw new Error("[UriError]: Scheme contains illegal characters.");
       if (t4.path) {
         if (t4.authority) {
-          if (!i.test(t4.path))
-            throw new Error('[UriError]: If a URI contains an authority component, then the path component must either be empty or begin with a slash ("/") character');
-        } else if (o.test(t4.path))
-          throw new Error('[UriError]: If a URI does not contain an authority component, then the path cannot begin with two slash characters ("//")');
+          if (!i.test(t4.path)) throw new Error('[UriError]: If a URI contains an authority component, then the path component must either be empty or begin with a slash ("/") character');
+        } else if (o.test(t4.path)) throw new Error('[UriError]: If a URI does not contain an authority component, then the path cannot begin with two slash characters ("//")');
       }
     }
     const h = "", a = "/", c = /^(([^:/?#]+?):)?(\/\/([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?/;
@@ -8992,9 +8958,9 @@ var LIB;
       query;
       fragment;
       constructor(t4, e3, r2, n2, i2, o2 = false) {
-        "object" == typeof t4 ? (this.scheme = t4.scheme || h, this.authority = t4.authority || h, this.path = t4.path || h, this.query = t4.query || h, this.fragment = t4.fragment || h) : (this.scheme = /* @__PURE__ */ function(t5, e4) {
+        "object" == typeof t4 ? (this.scheme = t4.scheme || h, this.authority = t4.authority || h, this.path = t4.path || h, this.query = t4.query || h, this.fragment = t4.fragment || h) : (this.scheme = /* @__PURE__ */ (function(t5, e4) {
           return t5 || e4 ? t5 : "file";
-        }(t4, o2), this.authority = e3 || h, this.path = function(t5, e4) {
+        })(t4, o2), this.authority = e3 || h, this.path = (function(t5, e4) {
           switch (t5) {
             case "https":
             case "http":
@@ -9002,14 +8968,13 @@ var LIB;
               e4 ? e4[0] !== a && (e4 = a + e4) : e4 = a;
           }
           return e4;
-        }(this.scheme, r2 || h), this.query = n2 || h, this.fragment = i2 || h, s(this, o2));
+        })(this.scheme, r2 || h), this.query = n2 || h, this.fragment = i2 || h, s(this, o2));
       }
       get fsPath() {
         return m(this, false);
       }
       with(t4) {
-        if (!t4)
-          return this;
+        if (!t4) return this;
         let { scheme: e3, authority: r2, path: n2, query: i2, fragment: o2 } = t4;
         return void 0 === e3 ? e3 = this.scheme : null === e3 && (e3 = h), void 0 === r2 ? r2 = this.authority : null === r2 && (r2 = h), void 0 === n2 ? n2 = this.path : null === n2 && (n2 = h), void 0 === i2 ? i2 = this.query : null === i2 && (i2 = h), void 0 === o2 ? o2 = this.fragment : null === o2 && (o2 = h), e3 === this.scheme && r2 === this.authority && n2 === this.path && i2 === this.query && o2 === this.fragment ? this : new l(e3, r2, n2, i2, o2);
       }
@@ -9037,8 +9002,7 @@ var LIB;
       }
       static revive(t4) {
         if (t4) {
-          if (t4 instanceof f)
-            return t4;
+          if (t4 instanceof f) return t4;
           {
             const e3 = new l(t4);
             return e3._formatted = t4.external, e3._fsPath = t4._sep === u ? t4.fsPath : null, e3;
@@ -9067,8 +9031,7 @@ var LIB;
       let n2, i2 = -1;
       for (let o2 = 0; o2 < t4.length; o2++) {
         const s2 = t4.charCodeAt(o2);
-        if (s2 >= 97 && s2 <= 122 || s2 >= 65 && s2 <= 90 || s2 >= 48 && s2 <= 57 || 45 === s2 || 46 === s2 || 95 === s2 || 126 === s2 || e3 && 47 === s2 || r2 && 91 === s2 || r2 && 93 === s2 || r2 && 58 === s2)
-          -1 !== i2 && (n2 += encodeURIComponent(t4.substring(i2, o2)), i2 = -1), void 0 !== n2 && (n2 += t4.charAt(o2));
+        if (s2 >= 97 && s2 <= 122 || s2 >= 65 && s2 <= 90 || s2 >= 48 && s2 <= 57 || 45 === s2 || 46 === s2 || 95 === s2 || 126 === s2 || e3 && 47 === s2 || r2 && 91 === s2 || r2 && 93 === s2 || r2 && 58 === s2) -1 !== i2 && (n2 += encodeURIComponent(t4.substring(i2, o2)), i2 = -1), void 0 !== n2 && (n2 += t4.charAt(o2));
         else {
           void 0 === n2 && (n2 = t4.substr(0, o2));
           const e4 = g[s2];
@@ -9121,12 +9084,12 @@ var LIB;
     }
     const b = /(%[0-9A-Za-z][0-9A-Za-z])+/g;
     function C(t4) {
-      return t4.match(b) ? t4.replace(b, (t5) => v(t5)) : t4;
+      return t4.match(b) ? t4.replace(b, ((t5) => v(t5))) : t4;
     }
     var A = r(470);
     const w = A.posix || A, x = "/";
     var P;
-    !function(t4) {
+    !(function(t4) {
       t4.joinPath = function(t5, ...e3) {
         return t5.with({ path: w.join(t5.path, ...e3) });
       }, t4.resolvePath = function(t5, ...e3) {
@@ -9135,8 +9098,7 @@ var LIB;
         let i2 = w.resolve(r2, ...e3);
         return n2 && i2[0] === x && !t5.authority && (i2 = i2.substring(1)), t5.with({ path: i2 });
       }, t4.dirname = function(t5) {
-        if (0 === t5.path.length || t5.path === x)
-          return t5;
+        if (0 === t5.path.length || t5.path === x) return t5;
         let e3 = w.dirname(t5.path);
         return 1 === e3.length && 46 === e3.charCodeAt(0) && (e3 = ""), t5.with({ path: e3 });
       }, t4.basename = function(t5) {
@@ -9144,7 +9106,7 @@ var LIB;
       }, t4.extname = function(t5) {
         return w.extname(t5.path);
       };
-    }(P || (P = {}));
+    })(P || (P = {}));
   })(), LIB = n;
 })();
 var { URI: URI2, Utils } = LIB;
@@ -9574,6 +9536,7 @@ var HTMLFolding = class {
           if (!lastTagName || !this.dataManager.isVoidElement(lastTagName, voidElements)) {
             break;
           }
+        // fallthrough
         case TokenType.EndTagClose:
         case TokenType.StartTagSelfClose: {
           let i = stack.length - 1;

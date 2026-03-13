@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.1.0-dev1(584153b8cfacf9f26e0b0ffed5942f3277b49869)
+ * Version: 0.1.0-dev3(5f53c74686d6eed60f9d2fcfdf2a6ad35b446fcf)
  * Released under the MIT license
  * https://github.com/microsoft/monaco-editor/blob/main/LICENSE.txt
  *-----------------------------------------------------------------------------*/
@@ -604,8 +604,7 @@ function tagToString(tag) {
   if (tag.name === "param" && tag.text) {
     const [paramName, ...rest] = tag.text;
     tagLabel += `\`${paramName.text}\``;
-    if (rest.length > 0)
-      tagLabel += ` \u2014 ${rest.map((r) => r.text).join(" ")}`;
+    if (rest.length > 0) tagLabel += ` \u2014 ${rest.map((r) => r.text).join(" ")}`;
   } else if (Array.isArray(tag.text)) {
     tagLabel += ` \u2014 ${tag.text.map((r) => r.text).join(" ")}`;
   } else if (tag.text) {
