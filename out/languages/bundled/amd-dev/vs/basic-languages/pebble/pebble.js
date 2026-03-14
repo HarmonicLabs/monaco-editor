@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.1.0-dev3(5f53c74686d6eed60f9d2fcfdf2a6ad35b446fcf)
+ * Version: 0.1.0(cb15af7e418c72dc4c483df371d5b618279625c6)
  * Released under the MIT license
  * https://github.com/microsoft/monaco-editor/blob/main/LICENSE.txt
  *-----------------------------------------------------------------------------*/
@@ -222,48 +222,31 @@ var moduleExports = (() => {
     defaultToken: "invalid",
     tokenPostfix: ".pebble",
     keywords: [
-      // common keywords
       "as",
       "assert",
       "break",
-      "case",
       "const",
       "continue",
-      "data",
-      "debugger",
       "else",
       "enum",
       "export",
       "extends",
       "fail",
       "false",
-      "finally",
       "for",
       "from",
       "function",
       "if",
-      "implements",
       "import",
-      "int",
-      "interface",
-      "is",
       "let",
       "match",
-      "of",
       "param",
-      "readonly",
       "return",
-      "runtime",
-      "static",
       "struct",
-      "this",
+      "trace",
       "true",
       "type",
-      "undefined",
-      "using",
       "var",
-      "void",
-      "when",
       "while",
       // contract keywords
       "contract",
@@ -275,6 +258,7 @@ var moduleExports = (() => {
       "vote",
       "context"
     ],
+    typeKeywords: ["int", "bool", "boolean", "bytes", "string", "void", "data"],
     operators: [
       "<=",
       ">=",
@@ -327,32 +311,33 @@ var moduleExports = (() => {
     octaldigits: /[0-7]+(_+[0-7]+)*/,
     binarydigits: /[0-1]+(_+[0-1]+)*/,
     hexdigits: /[[0-9a-fA-F]+(_+[0-9a-fA-F]+)*/,
-    regexpctl: /[(){}\[\]\$\^|\-*+?\.]/,
-    regexpesc: /\\(?:[bBdDfnrstvwWn0\\\/]|@regexpctl|c[A-Z]|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4})/,
     // The main tokenizer for our languages
     tokenizer: {
       root: [[/[{}]/, "delimiter.bracket"], { include: "common" }],
       common: [
+        // function declarations: function name(...)
+        [/(function)(\s+)([a-z_$][\w$]*)/, ["keyword", "", "entity.name.function"]],
+        // contract method declarations: spend methodName(...)
+        [
+          /(spend|mint|certify|withdraw|propose|vote)(\s+)([a-z_$][\w$]*)/,
+          ["keyword", "", "entity.name.function"]
+        ],
+        // contract param declarations: param name
+        [/(param)(\s+)([a-z_$][\w$]*)/, ["keyword", "", "identifier"]],
         // identifiers and keywords
         [
           /#?[a-z_$][\w$]*/,
           {
             cases: {
+              "@typeKeywords": "type.identifier",
               "@keywords": "keyword",
               "@default": "identifier"
             }
           }
         ],
         [/[A-Z][\w\$]*/, "type.identifier"],
-        // to show class names nicely
-        // [/[A-Z][\w\$]*/, 'identifier'],
         // whitespace
         { include: "@whitespace" },
-        // regular expression: ensure it is terminated before beginning (otherwise it is an opeator)
-        [
-          /\/(?=([^\\\/]|\\.)+\/([dgimsuy]*)(\s*)(\.|;|,|\)|\]|\}|$))/,
-          { token: "regexp", bracket: "@open", next: "@regexp" }
-        ],
         // delimiters and operators
         [/[()\[\]]/, "@brackets"],
         [/[<>](?!@symbols)/, "@brackets"],
@@ -399,38 +384,6 @@ var moduleExports = (() => {
         [/[^\/*]+/, "comment.doc"],
         [/\*\//, "comment.doc", "@pop"],
         [/[\/*]/, "comment.doc"]
-      ],
-      // We match regular expression quite precisely
-      regexp: [
-        [
-          /(\{)(\d+(?:,\d*)?)(\})/,
-          ["regexp.escape.control", "regexp.escape.control", "regexp.escape.control"]
-        ],
-        [
-          /(\[)(\^?)(?=(?:[^\]\\\/]|\\.)+)/,
-          ["regexp.escape.control", { token: "regexp.escape.control", next: "@regexrange" }]
-        ],
-        [/(\()(\?:|\?=|\?!)/, ["regexp.escape.control", "regexp.escape.control"]],
-        [/[()]/, "regexp.escape.control"],
-        [/@regexpctl/, "regexp.escape.control"],
-        [/[^\\\/]/, "regexp"],
-        [/@regexpesc/, "regexp.escape"],
-        [/\\\./, "regexp.invalid"],
-        [/(\/)([dgimsuy]*)/, [{ token: "regexp", bracket: "@close", next: "@pop" }, "keyword.other"]]
-      ],
-      regexrange: [
-        [/-/, "regexp.escape.control"],
-        [/\^/, "regexp.invalid"],
-        [/@regexpesc/, "regexp.escape"],
-        [/[^\]]/, "regexp"],
-        [
-          /\]/,
-          {
-            token: "regexp.escape.control",
-            next: "@pop",
-            bracket: "@close"
-          }
-        ]
       ],
       string_double: [
         [/[^\\"]+/, "string"],

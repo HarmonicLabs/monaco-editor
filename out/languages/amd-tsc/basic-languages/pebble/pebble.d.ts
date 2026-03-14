@@ -4,6 +4,7 @@ export declare const language: {
     defaultToken: string;
     tokenPostfix: string;
     keywords: string[];
+    typeKeywords: string[];
     operators: string[];
     symbols: RegExp;
     escapes: RegExp;
@@ -11,24 +12,19 @@ export declare const language: {
     octaldigits: RegExp;
     binarydigits: RegExp;
     hexdigits: RegExp;
-    regexpctl: RegExp;
-    regexpesc: RegExp;
     tokenizer: {
         root: ((string | RegExp)[] | {
             include: string;
         })[];
-        common: ((string | RegExp)[] | (RegExp | {
+        common: ((string | RegExp)[] | (RegExp | string[])[] | (RegExp | {
             cases: {
+                '@typeKeywords': string;
                 '@keywords': string;
                 '@default': string;
             };
         })[] | {
             include: string;
         } | (RegExp | {
-            token: string;
-            bracket: string;
-            next: string;
-        })[] | (RegExp | {
             cases: {
                 '@operators': string;
                 '@default': string;
@@ -37,19 +33,6 @@ export declare const language: {
         whitespace: (string | RegExp)[][];
         comment: (string | RegExp)[][];
         jsdoc: (string | RegExp)[][];
-        regexp: ((string | RegExp)[] | (RegExp | (string | {
-            token: string;
-            next: string;
-        })[])[] | (RegExp | (string | {
-            token: string;
-            bracket: string;
-            next: string;
-        })[])[])[];
-        regexrange: ((string | RegExp)[] | (RegExp | {
-            token: string;
-            next: string;
-            bracket: string;
-        })[])[];
         string_double: (string | RegExp)[][];
         string_single: (string | RegExp)[][];
         string_backtick: ((string | RegExp)[] | (RegExp | {

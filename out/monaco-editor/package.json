@@ -1,6 +1,6 @@
 {
   "name": "@harmoniclabs/monaco-editor",
-  "version": "0.1.0-dev3",
+  "version": "0.1.0",
   "vscodeRef": "493330cdc6475247184ea459c66776c3da12cd2d",
   "description": "A browser based code editor",
   "homepage": "https://github.com/HarmonicLabs/monaco-editor",
@@ -25,9 +25,8 @@
     "deps-all-install": "tsx ./build/npm/installAll",
     "update-actions": "pin-github-action ./.github/workflows/website.yml",
     "watch": "tsc -w -p ./src",
-    "build-languages": "tsx ./build/build-languages",
-    "build": "npm run build-languages && tsx ./build/build-monaco-editor",
-    "build-monaco-editor": "npm run build"
+    "build": "tsx ./build/build-languages",
+    "build-monaco-editor": "npm run build && tsx ./build/build-monaco-editor"
   },
   "typings": "./esm/vs/editor/editor.api.d.ts",
   "module": "./esm/vs/editor/editor.main.js",

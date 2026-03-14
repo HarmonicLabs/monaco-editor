@@ -159,48 +159,31 @@ define(["require", "exports", "../../fillers/monaco-editor-core"], function (req
         defaultToken: 'invalid',
         tokenPostfix: '.pebble',
         keywords: [
-            // common keywords
             'as',
             'assert',
             'break',
-            'case',
             'const',
             'continue',
-            'data',
-            'debugger',
             'else',
             'enum',
             'export',
             'extends',
             'fail',
             'false',
-            'finally',
             'for',
             'from',
             'function',
             'if',
-            'implements',
             'import',
-            'int',
-            'interface',
-            'is',
             'let',
             'match',
-            'of',
             'param',
-            'readonly',
             'return',
-            'runtime',
-            'static',
             'struct',
-            'this',
+            'trace',
             'true',
             'type',
-            'undefined',
-            'using',
             'var',
-            'void',
-            'when',
             'while',
             // contract keywords
             'contract',
@@ -210,8 +193,9 @@ define(["require", "exports", "../../fillers/monaco-editor-core"], function (req
             'withdraw',
             'propose',
             'vote',
-            'context',
+            'context'
         ],
+        typeKeywords: ['int', 'bool', 'boolean', 'bytes', 'string', 'void', 'data'],
         operators: [
             '<=',
             '>=',
@@ -264,31 +248,33 @@ define(["require", "exports", "../../fillers/monaco-editor-core"], function (req
         octaldigits: /[0-7]+(_+[0-7]+)*/,
         binarydigits: /[0-1]+(_+[0-1]+)*/,
         hexdigits: /[[0-9a-fA-F]+(_+[0-9a-fA-F]+)*/,
-        regexpctl: /[(){}\[\]\$\^|\-*+?\.]/,
-        regexpesc: /\\(?:[bBdDfnrstvwWn0\\\/]|@regexpctl|c[A-Z]|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4})/,
         // The main tokenizer for our languages
         tokenizer: {
             root: [[/[{}]/, 'delimiter.bracket'], { include: 'common' }],
             common: [
+                // function declarations: function name(...)
+                [/(function)(\s+)([a-z_$][\w$]*)/, ['keyword', '', 'entity.name.function']],
+                // contract method declarations: spend methodName(...)
+                [
+                    /(spend|mint|certify|withdraw|propose|vote)(\s+)([a-z_$][\w$]*)/,
+                    ['keyword', '', 'entity.name.function']
+                ],
+                // contract param declarations: param name
+                [/(param)(\s+)([a-z_$][\w$]*)/, ['keyword', '', 'identifier']],
                 // identifiers and keywords
                 [
                     /#?[a-z_$][\w$]*/,
                     {
                         cases: {
+                            '@typeKeywords': 'type.identifier',
                             '@keywords': 'keyword',
                             '@default': 'identifier'
                         }
                     }
                 ],
-                [/[A-Z][\w\$]*/, 'type.identifier'], // to show class names nicely
-                // [/[A-Z][\w\$]*/, 'identifier'],
+                [/[A-Z][\w\$]*/, 'type.identifier'],
                 // whitespace
                 { include: '@whitespace' },
-                // regular expression: ensure it is terminated before beginning (otherwise it is an opeator)
-                [
-                    /\/(?=([^\\\/]|\\.)+\/([dgimsuy]*)(\s*)(\.|;|,|\)|\]|\}|$))/,
-                    { token: 'regexp', bracket: '@open', next: '@regexp' }
-                ],
                 // delimiters and operators
                 [/[()\[\]]/, '@brackets'],
                 [/[<>](?!@symbols)/, '@brackets'],
@@ -333,38 +319,6 @@ define(["require", "exports", "../../fillers/monaco-editor-core"], function (req
                 [/[^\/*]+/, 'comment.doc'],
                 [/\*\//, 'comment.doc', '@pop'],
                 [/[\/*]/, 'comment.doc']
-            ],
-            // We match regular expression quite precisely
-            regexp: [
-                [
-                    /(\{)(\d+(?:,\d*)?)(\})/,
-                    ['regexp.escape.control', 'regexp.escape.control', 'regexp.escape.control']
-                ],
-                [
-                    /(\[)(\^?)(?=(?:[^\]\\\/]|\\.)+)/,
-                    ['regexp.escape.control', { token: 'regexp.escape.control', next: '@regexrange' }]
-                ],
-                [/(\()(\?:|\?=|\?!)/, ['regexp.escape.control', 'regexp.escape.control']],
-                [/[()]/, 'regexp.escape.control'],
-                [/@regexpctl/, 'regexp.escape.control'],
-                [/[^\\\/]/, 'regexp'],
-                [/@regexpesc/, 'regexp.escape'],
-                [/\\\./, 'regexp.invalid'],
-                [/(\/)([dgimsuy]*)/, [{ token: 'regexp', bracket: '@close', next: '@pop' }, 'keyword.other']]
-            ],
-            regexrange: [
-                [/-/, 'regexp.escape.control'],
-                [/\^/, 'regexp.invalid'],
-                [/@regexpesc/, 'regexp.escape'],
-                [/[^\]]/, 'regexp'],
-                [
-                    /\]/,
-                    {
-                        token: 'regexp.escape.control',
-                        next: '@pop',
-                        bracket: '@close'
-                    }
-                ]
             ],
             string_double: [
                 [/[^\\"]+/, 'string'],
