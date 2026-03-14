@@ -1,6 +1,6 @@
 {
 	"name": "@harmoniclabs/monaco-editor",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"vscodeRef": "493330cdc6475247184ea459c66776c3da12cd2d",
 	"description": "A browser based code editor",
 	"homepage": "https://github.com/HarmonicLabs/monaco-editor",
