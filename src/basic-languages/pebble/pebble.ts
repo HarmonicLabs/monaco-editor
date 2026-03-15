@@ -134,15 +134,13 @@ export const conf: languages.LanguageConfiguration = {
 		{ open: '(', close: ')' },
 		{ open: "'", close: "'" },
 		{ open: '"', close: '"' },
-		{ open: '`', close: '`' },
-		{ open: '<', close: '<' }
+		{ open: '`', close: '`' }
 	],
 
 	colorizedBracketPairs: [
 		['{', '}'],
 		['[', ']'],
-		['(', ')'],
-		['<', '>']
+		['(', ')']
 	],
 
 	autoCloseBefore: ';:.,=}])>` \n\t',
@@ -172,35 +170,36 @@ export const language = {
 	defaultToken: 'invalid',
 	tokenPostfix: '.pebble',
 
-	keywords: [
-		'as',
-		'assert',
-		'break',
-		'const',
-		'continue',
-		'else',
-		'enum',
-		'export',
-		'extends',
-		'fail',
-		'false',
-		'for',
-		'from',
-		'function',
+	controlKeywords: [
 		'if',
-		'import',
-		'let',
-		'match',
-		'param',
-		'return',
-		'struct',
-		'trace',
-		'true',
-		'type',
-		'var',
+		'else',
+		'for',
 		'while',
+		'break',
+		'continue',
+		'return',
+		'match',
+		'trace',
+		'fail',
+		'assert',
+		'as'
+	],
 
-		// contract keywords
+	keywords: [
+		'const',
+		'let',
+		'var',
+		'function',
+		'struct',
+		'type',
+		'enum',
+		'import',
+		'export',
+		'from',
+		'extends',
+		'true',
+		'false',
+		'param',
 		'contract',
 		'spend',
 		'mint',
@@ -256,7 +255,9 @@ export const language = {
 		'&=',
 		'|=',
 		'^=',
-		'@'
+		'@',
+		'<',
+		'>'
 	],
 
 	// we include these common regular expressions
@@ -284,12 +285,19 @@ export const language = {
 			// contract param declarations: param name
 			[/(param)(\s+)([a-z_$][\w$]*)/, ['keyword', '', 'identifier']],
 
+			// const declarations: const name — gets constant identifier token
+			[/(const)(\s+)([a-z_$][\w$]*)/, ['keyword', '', 'identifier.constant']],
+
+			// let/var declarations: let name
+			[/(let|var)(\s+)([a-z_$][\w$]*)/, ['keyword', '', 'identifier']],
+
 			// identifiers and keywords
 			[
 				/#?[a-z_$][\w$]*/,
 				{
 					cases: {
 						'@typeKeywords': 'type.identifier',
+						'@controlKeywords': 'keyword.control',
 						'@keywords': 'keyword',
 						'@default': 'identifier'
 					}
@@ -302,7 +310,6 @@ export const language = {
 
 			// delimiters and operators
 			[/[()\[\]]/, '@brackets'],
-			[/[<>](?!@symbols)/, '@brackets'],
 			[/!(?=([^=]|$))/, 'delimiter'],
 			[
 				/@symbols/,

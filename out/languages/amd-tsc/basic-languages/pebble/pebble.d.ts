@@ -3,6 +3,7 @@ export declare const conf: languages.LanguageConfiguration;
 export declare const language: {
     defaultToken: string;
     tokenPostfix: string;
+    controlKeywords: string[];
     keywords: string[];
     typeKeywords: string[];
     operators: string[];
@@ -19,6 +20,7 @@ export declare const language: {
         common: ((string | RegExp)[] | (RegExp | string[])[] | (RegExp | {
             cases: {
                 '@typeKeywords': string;
+                '@controlKeywords': string;
                 '@keywords': string;
                 '@default': string;
             };

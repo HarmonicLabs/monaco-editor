@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.1.1(3a1ae58f11f2fd6a31f57e3092c094f5eee329de)
+ * Version: 0.1.2(1cf513ad54dca3a880b907145efcfee4f446d9bd)
  * Released under the MIT license
  * https://github.com/microsoft/monaco-editor/blob/main/LICENSE.txt
  *-----------------------------------------------------------------------------*/
@@ -149,14 +149,12 @@ var conf = {
     { open: "(", close: ")" },
     { open: "'", close: "'" },
     { open: '"', close: '"' },
-    { open: "`", close: "`" },
-    { open: "<", close: "<" }
+    { open: "`", close: "`" }
   ],
   colorizedBracketPairs: [
     ["{", "}"],
     ["[", "]"],
-    ["(", ")"],
-    ["<", ">"]
+    ["(", ")"]
   ],
   autoCloseBefore: ";:.,=}])>` \n	",
   folding: {
@@ -181,34 +179,35 @@ var language = {
   // Set defaultToken to invalid to see what you do not tokenize yet
   defaultToken: "invalid",
   tokenPostfix: ".pebble",
-  keywords: [
-    "as",
-    "assert",
-    "break",
-    "const",
-    "continue",
-    "else",
-    "enum",
-    "export",
-    "extends",
-    "fail",
-    "false",
-    "for",
-    "from",
-    "function",
+  controlKeywords: [
     "if",
-    "import",
-    "let",
-    "match",
-    "param",
-    "return",
-    "struct",
-    "trace",
-    "true",
-    "type",
-    "var",
+    "else",
+    "for",
     "while",
-    // contract keywords
+    "break",
+    "continue",
+    "return",
+    "match",
+    "trace",
+    "fail",
+    "assert",
+    "as"
+  ],
+  keywords: [
+    "const",
+    "let",
+    "var",
+    "function",
+    "struct",
+    "type",
+    "enum",
+    "import",
+    "export",
+    "from",
+    "extends",
+    "true",
+    "false",
+    "param",
     "contract",
     "spend",
     "mint",
@@ -262,7 +261,9 @@ var language = {
     "&=",
     "|=",
     "^=",
-    "@"
+    "@",
+    "<",
+    ">"
   ],
   // we include these common regular expressions
   symbols: /[=><!~?:&|+\-*\/\^%]+/,
@@ -284,12 +285,17 @@ var language = {
       ],
       // contract param declarations: param name
       [/(param)(\s+)([a-z_$][\w$]*)/, ["keyword", "", "identifier"]],
+      // const declarations: const name — gets constant identifier token
+      [/(const)(\s+)([a-z_$][\w$]*)/, ["keyword", "", "identifier.constant"]],
+      // let/var declarations: let name
+      [/(let|var)(\s+)([a-z_$][\w$]*)/, ["keyword", "", "identifier"]],
       // identifiers and keywords
       [
         /#?[a-z_$][\w$]*/,
         {
           cases: {
             "@typeKeywords": "type.identifier",
+            "@controlKeywords": "keyword.control",
             "@keywords": "keyword",
             "@default": "identifier"
           }
@@ -300,7 +306,6 @@ var language = {
       { include: "@whitespace" },
       // delimiters and operators
       [/[()\[\]]/, "@brackets"],
-      [/[<>](?!@symbols)/, "@brackets"],
       [/!(?=([^=]|$))/, "delimiter"],
       [
         /@symbols/,

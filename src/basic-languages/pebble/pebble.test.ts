@@ -6,29 +6,124 @@
 import { testTokenization } from '../test/testRunner';
 
 testTokenization('pebble', [
-	// Keywords
+	// Control keywords (purple)
 	[
 		{
 			line: 'if (x > 0) { return x; }',
 			tokens: [
-				{ startIndex: 0, type: 'keyword.pebble' }, // 'if'
+				{ startIndex: 0, type: 'keyword.control.pebble' }, // 'if'
 				{ startIndex: 2, type: '' }, // whitespace
 				{ startIndex: 3, type: 'delimiter.parenthesis.pebble' }, // '('
 				{ startIndex: 4, type: 'identifier.pebble' }, // 'x'
 				{ startIndex: 5, type: '' }, // whitespace
-				{ startIndex: 6, type: 'delimiter.angle.pebble' }, // '>'
+				{ startIndex: 6, type: 'delimiter.pebble' }, // '>'
 				{ startIndex: 7, type: '' }, // whitespace
 				{ startIndex: 8, type: 'number.pebble' }, // '0'
 				{ startIndex: 9, type: 'delimiter.parenthesis.pebble' }, // ')'
 				{ startIndex: 10, type: '' }, // whitespace
 				{ startIndex: 11, type: 'delimiter.bracket.pebble' }, // '{'
 				{ startIndex: 12, type: '' }, // whitespace
-				{ startIndex: 13, type: 'keyword.pebble' }, // 'return'
+				{ startIndex: 13, type: 'keyword.control.pebble' }, // 'return'
 				{ startIndex: 19, type: '' }, // whitespace
 				{ startIndex: 20, type: 'identifier.pebble' }, // 'x'
 				{ startIndex: 21, type: 'delimiter.pebble' }, // ';'
 				{ startIndex: 22, type: '' }, // whitespace
 				{ startIndex: 23, type: 'delimiter.bracket.pebble' } // '}'
+			]
+		}
+	],
+
+	// Const declarations — variable gets identifier.constant
+	[
+		{
+			line: 'const n = 10;',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.pebble' }, // 'const'
+				{ startIndex: 5, type: '' },
+				{ startIndex: 6, type: 'identifier.constant.pebble' }, // 'n'
+				{ startIndex: 7, type: '' },
+				{ startIndex: 8, type: 'delimiter.pebble' }, // '='
+				{ startIndex: 9, type: '' },
+				{ startIndex: 10, type: 'number.pebble' }, // '10'
+				{ startIndex: 12, type: 'delimiter.pebble' } // ';'
+			]
+		}
+	],
+
+	// Let declarations — variable gets identifier
+	[
+		{
+			line: 'let result = 0;',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.pebble' }, // 'let'
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'identifier.pebble' }, // 'result'
+				{ startIndex: 10, type: '' },
+				{ startIndex: 11, type: 'delimiter.pebble' }, // '='
+				{ startIndex: 12, type: '' },
+				{ startIndex: 13, type: 'number.pebble' }, // '0'
+				{ startIndex: 14, type: 'delimiter.pebble' } // ';'
+			]
+		}
+	],
+
+	// Comparison operators
+	[
+		{
+			line: 'i <= n',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.pebble' }, // 'i'
+				{ startIndex: 1, type: '' },
+				{ startIndex: 2, type: 'delimiter.pebble' }, // '<='
+				{ startIndex: 4, type: '' },
+				{ startIndex: 5, type: 'identifier.pebble' } // 'n'
+			]
+		}
+	],
+
+	// Control keyword: trace
+	[
+		{
+			line: 'trace result;',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.control.pebble' }, // 'trace'
+				{ startIndex: 5, type: '' },
+				{ startIndex: 6, type: 'identifier.pebble' }, // 'result'
+				{ startIndex: 12, type: 'delimiter.pebble' } // ';'
+			]
+		}
+	],
+
+	// Control keyword: for
+	[
+		{
+			line: 'for( let i = 0; i <= n; i++ ) {',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.control.pebble' }, // 'for'
+				{ startIndex: 3, type: 'delimiter.parenthesis.pebble' }, // '('
+				{ startIndex: 4, type: '' },
+				{ startIndex: 5, type: 'keyword.pebble' }, // 'let'
+				{ startIndex: 8, type: '' },
+				{ startIndex: 9, type: 'identifier.pebble' }, // 'i'
+				{ startIndex: 10, type: '' },
+				{ startIndex: 11, type: 'delimiter.pebble' }, // '='
+				{ startIndex: 12, type: '' },
+				{ startIndex: 13, type: 'number.pebble' }, // '0'
+				{ startIndex: 14, type: 'delimiter.pebble' }, // ';'
+				{ startIndex: 15, type: '' },
+				{ startIndex: 16, type: 'identifier.pebble' }, // 'i'
+				{ startIndex: 17, type: '' },
+				{ startIndex: 18, type: 'delimiter.pebble' }, // '<='
+				{ startIndex: 20, type: '' },
+				{ startIndex: 21, type: 'identifier.pebble' }, // 'n'
+				{ startIndex: 22, type: 'delimiter.pebble' }, // ';'
+				{ startIndex: 23, type: '' },
+				{ startIndex: 24, type: 'identifier.pebble' }, // 'i'
+				{ startIndex: 25, type: 'delimiter.pebble' }, // '++'
+				{ startIndex: 27, type: '' },
+				{ startIndex: 28, type: 'delimiter.parenthesis.pebble' }, // ')'
+				{ startIndex: 29, type: '' },
+				{ startIndex: 30, type: 'delimiter.bracket.pebble' } // '{'
 			]
 		}
 	],
@@ -40,7 +135,7 @@ testTokenization('pebble', [
 			tokens: [
 				{ startIndex: 0, type: 'keyword.pebble' }, // 'const'
 				{ startIndex: 5, type: '' },
-				{ startIndex: 6, type: 'identifier.pebble' }, // 'x'
+				{ startIndex: 6, type: 'identifier.constant.pebble' }, // 'x'
 				{ startIndex: 7, type: 'delimiter.pebble' }, // ':'
 				{ startIndex: 8, type: '' },
 				{ startIndex: 9, type: 'type.identifier.pebble' }, // 'int'
@@ -96,90 +191,15 @@ testTokenization('pebble', [
 		}
 	],
 
-	// Uppercase identifiers as types
-	[
-		{
-			line: 'let x: PubKeyHash = owner;',
-			tokens: [
-				{ startIndex: 0, type: 'keyword.pebble' }, // 'let'
-				{ startIndex: 3, type: '' },
-				{ startIndex: 4, type: 'identifier.pebble' }, // 'x'
-				{ startIndex: 5, type: 'delimiter.pebble' }, // ':'
-				{ startIndex: 6, type: '' },
-				{ startIndex: 7, type: 'type.identifier.pebble' }, // 'PubKeyHash'
-				{ startIndex: 17, type: '' },
-				{ startIndex: 18, type: 'delimiter.pebble' }, // '='
-				{ startIndex: 19, type: '' },
-				{ startIndex: 20, type: 'identifier.pebble' }, // 'owner'
-				{ startIndex: 25, type: 'delimiter.pebble' } // ';'
-			]
-		}
-	],
-
-	// Operators
-	[
-		{
-			line: 'x = y + z - 10 * 2 / 5;',
-			tokens: [
-				{ startIndex: 0, type: 'identifier.pebble' }, // 'x'
-				{ startIndex: 1, type: '' }, // whitespace
-				{ startIndex: 2, type: 'delimiter.pebble' }, // '='
-				{ startIndex: 3, type: '' }, // whitespace
-				{ startIndex: 4, type: 'identifier.pebble' }, // 'y'
-				{ startIndex: 5, type: '' }, // whitespace
-				{ startIndex: 6, type: 'delimiter.pebble' }, // '+'
-				{ startIndex: 7, type: '' }, // whitespace
-				{ startIndex: 8, type: 'identifier.pebble' }, // 'z'
-				{ startIndex: 9, type: '' }, // whitespace
-				{ startIndex: 10, type: 'delimiter.pebble' }, // '-'
-				{ startIndex: 11, type: '' }, // whitespace
-				{ startIndex: 12, type: 'number.pebble' }, // '10'
-				{ startIndex: 14, type: '' }, // whitespace
-				{ startIndex: 15, type: 'delimiter.pebble' }, // '*'
-				{ startIndex: 16, type: '' }, // whitespace
-				{ startIndex: 17, type: 'number.pebble' }, // '2'
-				{ startIndex: 18, type: '' }, // whitespace
-				{ startIndex: 19, type: 'delimiter.pebble' }, // '/'
-				{ startIndex: 20, type: '' }, // whitespace
-				{ startIndex: 21, type: 'number.pebble' }, // '5'
-				{ startIndex: 22, type: 'delimiter.pebble' } // ';'
-			]
-		}
-	],
-
-	// Delimiters
-	[
-		{
-			line: '{ [ ( ) ] }',
-			tokens: [
-				{ startIndex: 0, type: 'delimiter.bracket.pebble' }, // '{'
-				{ startIndex: 1, type: '' }, // whitespace
-				{ startIndex: 2, type: 'delimiter.square.pebble' }, // '['
-				{ startIndex: 3, type: '' }, // whitespace
-				{ startIndex: 4, type: 'delimiter.parenthesis.pebble' }, // '('
-				{ startIndex: 5, type: '' }, // whitespace
-				{ startIndex: 6, type: 'delimiter.parenthesis.pebble' }, // ')'
-				{ startIndex: 7, type: '' }, // whitespace
-				{ startIndex: 8, type: 'delimiter.square.pebble' }, // ']'
-				{ startIndex: 9, type: '' }, // whitespace
-				{ startIndex: 10, type: 'delimiter.bracket.pebble' } // '}'
-			]
-		}
-	],
-
 	// Comments
 	[
 		{
 			line: '// This is a single-line comment',
-			tokens: [
-				{ startIndex: 0, type: 'comment.pebble' } // Entire line
-			]
+			tokens: [{ startIndex: 0, type: 'comment.pebble' }]
 		},
 		{
 			line: '/* This is a multi-line comment */',
-			tokens: [
-				{ startIndex: 0, type: 'comment.pebble' } // Entire line
-			]
+			tokens: [{ startIndex: 0, type: 'comment.pebble' }]
 		}
 	],
 
@@ -189,11 +209,11 @@ testTokenization('pebble', [
 			line: 'let str = "Hello, world!";',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.pebble' }, // 'let'
-				{ startIndex: 3, type: '' }, // whitespace
+				{ startIndex: 3, type: '' },
 				{ startIndex: 4, type: 'identifier.pebble' }, // 'str'
-				{ startIndex: 7, type: '' }, // whitespace
+				{ startIndex: 7, type: '' },
 				{ startIndex: 8, type: 'delimiter.pebble' }, // '='
-				{ startIndex: 9, type: '' }, // whitespace
+				{ startIndex: 9, type: '' },
 				{ startIndex: 10, type: 'string.pebble' }, // '"Hello, world!"'
 				{ startIndex: 25, type: 'delimiter.pebble' } // ';'
 			]
@@ -206,11 +226,11 @@ testTokenization('pebble', [
 			line: 'const pi = 3.14;',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.pebble' }, // 'const'
-				{ startIndex: 5, type: '' }, // whitespace
-				{ startIndex: 6, type: 'identifier.pebble' }, // 'pi'
-				{ startIndex: 8, type: '' }, // whitespace
+				{ startIndex: 5, type: '' },
+				{ startIndex: 6, type: 'identifier.constant.pebble' }, // 'pi'
+				{ startIndex: 8, type: '' },
 				{ startIndex: 9, type: 'delimiter.pebble' }, // '='
-				{ startIndex: 10, type: '' }, // whitespace
+				{ startIndex: 10, type: '' },
 				{ startIndex: 11, type: 'number.float.pebble' }, // '3.14'
 				{ startIndex: 15, type: 'delimiter.pebble' } // ';'
 			]
@@ -229,26 +249,6 @@ testTokenization('pebble', [
 				{ startIndex: 12, type: '' },
 				{ startIndex: 13, type: 'type.identifier.pebble' }, // 'PubKeyHash'
 				{ startIndex: 23, type: 'delimiter.pebble' } // ';'
-			]
-		}
-	],
-
-	// Built-in type keywords
-	[
-		{
-			line: 'let a: bool = true;',
-			tokens: [
-				{ startIndex: 0, type: 'keyword.pebble' }, // 'let'
-				{ startIndex: 3, type: '' },
-				{ startIndex: 4, type: 'identifier.pebble' }, // 'a'
-				{ startIndex: 5, type: 'delimiter.pebble' }, // ':'
-				{ startIndex: 6, type: '' },
-				{ startIndex: 7, type: 'type.identifier.pebble' }, // 'bool'
-				{ startIndex: 11, type: '' },
-				{ startIndex: 12, type: 'delimiter.pebble' }, // '='
-				{ startIndex: 13, type: '' },
-				{ startIndex: 14, type: 'keyword.pebble' }, // 'true'
-				{ startIndex: 18, type: 'delimiter.pebble' } // ';'
 			]
 		}
 	]

@@ -130,14 +130,12 @@ define(["require", "exports", "../../fillers/monaco-editor-core"], function (req
             { open: '(', close: ')' },
             { open: "'", close: "'" },
             { open: '"', close: '"' },
-            { open: '`', close: '`' },
-            { open: '<', close: '<' }
+            { open: '`', close: '`' }
         ],
         colorizedBracketPairs: [
             ['{', '}'],
             ['[', ']'],
-            ['(', ')'],
-            ['<', '>']
+            ['(', ')']
         ],
         autoCloseBefore: ';:.,=}])>` \n\t',
         folding: {
@@ -158,42 +156,15 @@ define(["require", "exports", "../../fillers/monaco-editor-core"], function (req
         // Set defaultToken to invalid to see what you do not tokenize yet
         defaultToken: 'invalid',
         tokenPostfix: '.pebble',
+        controlKeywords: [
+            'if', 'else', 'for', 'while', 'break', 'continue',
+            'return', 'match', 'trace', 'fail', 'assert', 'as'
+        ],
         keywords: [
-            'as',
-            'assert',
-            'break',
-            'const',
-            'continue',
-            'else',
-            'enum',
-            'export',
-            'extends',
-            'fail',
-            'false',
-            'for',
-            'from',
-            'function',
-            'if',
-            'import',
-            'let',
-            'match',
-            'param',
-            'return',
-            'struct',
-            'trace',
-            'true',
-            'type',
-            'var',
-            'while',
-            // contract keywords
-            'contract',
-            'spend',
-            'mint',
-            'certify',
-            'withdraw',
-            'propose',
-            'vote',
-            'context'
+            'const', 'let', 'var', 'function', 'struct', 'type', 'enum',
+            'import', 'export', 'from', 'extends', 'true', 'false',
+            'param', 'contract', 'spend', 'mint', 'certify', 'withdraw',
+            'propose', 'vote', 'context'
         ],
         typeKeywords: ['int', 'bool', 'boolean', 'bytes', 'string', 'void', 'data'],
         operators: [
@@ -239,7 +210,9 @@ define(["require", "exports", "../../fillers/monaco-editor-core"], function (req
             '&=',
             '|=',
             '^=',
-            '@'
+            '@',
+            '<',
+            '>'
         ],
         // we include these common regular expressions
         symbols: /[=><!~?:&|+\-*\/\^%]+/,
@@ -261,12 +234,17 @@ define(["require", "exports", "../../fillers/monaco-editor-core"], function (req
                 ],
                 // contract param declarations: param name
                 [/(param)(\s+)([a-z_$][\w$]*)/, ['keyword', '', 'identifier']],
+                // const declarations: const name — gets constant identifier token
+                [/(const)(\s+)([a-z_$][\w$]*)/, ['keyword', '', 'identifier.constant']],
+                // let/var declarations: let name
+                [/(let|var)(\s+)([a-z_$][\w$]*)/, ['keyword', '', 'identifier']],
                 // identifiers and keywords
                 [
                     /#?[a-z_$][\w$]*/,
                     {
                         cases: {
                             '@typeKeywords': 'type.identifier',
+                            '@controlKeywords': 'keyword.control',
                             '@keywords': 'keyword',
                             '@default': 'identifier'
                         }
@@ -277,7 +255,6 @@ define(["require", "exports", "../../fillers/monaco-editor-core"], function (req
                 { include: '@whitespace' },
                 // delimiters and operators
                 [/[()\[\]]/, '@brackets'],
-                [/[<>](?!@symbols)/, '@brackets'],
                 [/!(?=([^=]|$))/, 'delimiter'],
                 [
                     /@symbols/,
