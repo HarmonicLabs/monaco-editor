@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.1.2(1cf513ad54dca3a880b907145efcfee4f446d9bd)
+ * Version: 0.3.0(ac52b6cdaca99cc013737a6bc5384d119217cc53)
  * Released under the MIT license
  * https://github.com/microsoft/monaco-editor/blob/main/LICENSE.txt
  *-----------------------------------------------------------------------------*/
@@ -188,10 +188,12 @@ var language = {
     "continue",
     "return",
     "match",
+    "when",
     "trace",
     "fail",
     "assert",
-    "as"
+    "as",
+    "is"
   ],
   keywords: [
     "const",
@@ -199,8 +201,12 @@ var language = {
     "var",
     "function",
     "struct",
+    "data",
     "type",
     "enum",
+    "interface",
+    "implements",
+    "using",
     "import",
     "export",
     "from",
@@ -209,6 +215,7 @@ var language = {
     "false",
     "param",
     "contract",
+    "state",
     "spend",
     "mint",
     "certify",
@@ -289,6 +296,21 @@ var language = {
       [/(const)(\s+)([a-z_$][\w$]*)/, ["keyword", "", "identifier.constant"]],
       // let/var declarations: let name
       [/(let|var)(\s+)([a-z_$][\w$]*)/, ["keyword", "", "identifier"]],
+      // `data struct Name` — `data` is a modifier here (keyword), not the type
+      [/(data)(\s+)(struct)(\s+)([A-Z][\w$]*)/, ["keyword", "", "keyword", "", "type.identifier"]],
+      // `struct Name` declarations
+      [/(struct)(\s+)([A-Z][\w$]*)/, ["keyword", "", "type.identifier"]],
+      // `state Name` declarations inside a contract
+      [/(state)(\s+)([A-Z][\w$]*)/, ["keyword", "", "type.identifier"]],
+      // `contract Name` declarations
+      [/(contract)(\s+)([A-Z][\w$]*)/, ["keyword", "", "type.identifier"]],
+      // `enum Name` and `interface Name` declarations
+      [/(enum|interface)(\s+)([A-Z][\w$]*)/, ["keyword", "", "type.identifier"]],
+      // Pebble byte-string literals: `#deadbeef`, `#01`, `#""` (empty form).
+      // Must come before the identifier rule which would otherwise eat
+      // `#deadbeef` as a `#identifier`-shape token.
+      [/#[0-9a-fA-F]+\b/, "number.hex"],
+      [/#""/, "string"],
       // identifiers and keywords
       [
         /#?[a-z_$][\w$]*/,

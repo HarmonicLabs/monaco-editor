@@ -179,10 +179,12 @@ export const language = {
 		'continue',
 		'return',
 		'match',
+		'when',
 		'trace',
 		'fail',
 		'assert',
-		'as'
+		'as',
+		'is'
 	],
 
 	keywords: [
@@ -191,8 +193,12 @@ export const language = {
 		'var',
 		'function',
 		'struct',
+		'data',
 		'type',
 		'enum',
+		'interface',
+		'implements',
+		'using',
 		'import',
 		'export',
 		'from',
@@ -201,6 +207,7 @@ export const language = {
 		'false',
 		'param',
 		'contract',
+		'state',
 		'spend',
 		'mint',
 		'certify',
@@ -290,6 +297,27 @@ export const language = {
 
 			// let/var declarations: let name
 			[/(let|var)(\s+)([a-z_$][\w$]*)/, ['keyword', '', 'identifier']],
+
+			// `data struct Name` — `data` is a modifier here (keyword), not the type
+			[/(data)(\s+)(struct)(\s+)([A-Z][\w$]*)/, ['keyword', '', 'keyword', '', 'type.identifier']],
+
+			// `struct Name` declarations
+			[/(struct)(\s+)([A-Z][\w$]*)/, ['keyword', '', 'type.identifier']],
+
+			// `state Name` declarations inside a contract
+			[/(state)(\s+)([A-Z][\w$]*)/, ['keyword', '', 'type.identifier']],
+
+			// `contract Name` declarations
+			[/(contract)(\s+)([A-Z][\w$]*)/, ['keyword', '', 'type.identifier']],
+
+			// `enum Name` and `interface Name` declarations
+			[/(enum|interface)(\s+)([A-Z][\w$]*)/, ['keyword', '', 'type.identifier']],
+
+			// Pebble byte-string literals: `#deadbeef`, `#01`, `#""` (empty form).
+			// Must come before the identifier rule which would otherwise eat
+			// `#deadbeef` as a `#identifier`-shape token.
+			[/#[0-9a-fA-F]+\b/, 'number.hex'],
+			[/#""/, 'string'],
 
 			// identifiers and keywords
 			[

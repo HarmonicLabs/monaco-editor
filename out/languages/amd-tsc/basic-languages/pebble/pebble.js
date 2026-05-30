@@ -157,14 +157,49 @@ define(["require", "exports", "../../fillers/monaco-editor-core"], function (req
         defaultToken: 'invalid',
         tokenPostfix: '.pebble',
         controlKeywords: [
-            'if', 'else', 'for', 'while', 'break', 'continue',
-            'return', 'match', 'trace', 'fail', 'assert', 'as'
+            'if',
+            'else',
+            'for',
+            'while',
+            'break',
+            'continue',
+            'return',
+            'match',
+            'when',
+            'trace',
+            'fail',
+            'assert',
+            'as',
+            'is'
         ],
         keywords: [
-            'const', 'let', 'var', 'function', 'struct', 'type', 'enum',
-            'import', 'export', 'from', 'extends', 'true', 'false',
-            'param', 'contract', 'spend', 'mint', 'certify', 'withdraw',
-            'propose', 'vote', 'context'
+            'const',
+            'let',
+            'var',
+            'function',
+            'struct',
+            'data',
+            'type',
+            'enum',
+            'interface',
+            'implements',
+            'using',
+            'import',
+            'export',
+            'from',
+            'extends',
+            'true',
+            'false',
+            'param',
+            'contract',
+            'state',
+            'spend',
+            'mint',
+            'certify',
+            'withdraw',
+            'propose',
+            'vote',
+            'context'
         ],
         typeKeywords: ['int', 'bool', 'boolean', 'bytes', 'string', 'void', 'data'],
         operators: [
@@ -238,6 +273,21 @@ define(["require", "exports", "../../fillers/monaco-editor-core"], function (req
                 [/(const)(\s+)([a-z_$][\w$]*)/, ['keyword', '', 'identifier.constant']],
                 // let/var declarations: let name
                 [/(let|var)(\s+)([a-z_$][\w$]*)/, ['keyword', '', 'identifier']],
+                // `data struct Name` — `data` is a modifier here (keyword), not the type
+                [/(data)(\s+)(struct)(\s+)([A-Z][\w$]*)/, ['keyword', '', 'keyword', '', 'type.identifier']],
+                // `struct Name` declarations
+                [/(struct)(\s+)([A-Z][\w$]*)/, ['keyword', '', 'type.identifier']],
+                // `state Name` declarations inside a contract
+                [/(state)(\s+)([A-Z][\w$]*)/, ['keyword', '', 'type.identifier']],
+                // `contract Name` declarations
+                [/(contract)(\s+)([A-Z][\w$]*)/, ['keyword', '', 'type.identifier']],
+                // `enum Name` and `interface Name` declarations
+                [/(enum|interface)(\s+)([A-Z][\w$]*)/, ['keyword', '', 'type.identifier']],
+                // Pebble byte-string literals: `#deadbeef`, `#01`, `#""` (empty form).
+                // Must come before the identifier rule which would otherwise eat
+                // `#deadbeef` as a `#identifier`-shape token.
+                [/#[0-9a-fA-F]+\b/, 'number.hex'],
+                [/#""/, 'string'],
                 // identifiers and keywords
                 [
                     /#?[a-z_$][\w$]*/,

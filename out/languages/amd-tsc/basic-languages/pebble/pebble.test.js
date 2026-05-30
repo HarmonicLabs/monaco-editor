@@ -186,15 +186,11 @@ define(["require", "exports", "../test/testRunner"], function (require, exports,
         [
             {
                 line: '// This is a single-line comment',
-                tokens: [
-                    { startIndex: 0, type: 'comment.pebble' }
-                ]
+                tokens: [{ startIndex: 0, type: 'comment.pebble' }]
             },
             {
                 line: '/* This is a multi-line comment */',
-                tokens: [
-                    { startIndex: 0, type: 'comment.pebble' }
-                ]
+                tokens: [{ startIndex: 0, type: 'comment.pebble' }]
             }
         ],
         // Strings
@@ -241,6 +237,146 @@ define(["require", "exports", "../test/testRunner"], function (require, exports,
                     { startIndex: 12, type: '' },
                     { startIndex: 13, type: 'type.identifier.pebble' }, // 'PubKeyHash'
                     { startIndex: 23, type: 'delimiter.pebble' } // ';'
+                ]
+            }
+        ],
+        // v0.3.0 — state declaration
+        [
+            {
+                line: 'state Live {',
+                tokens: [
+                    { startIndex: 0, type: 'keyword.pebble' }, // 'state'
+                    { startIndex: 5, type: '' },
+                    { startIndex: 6, type: 'type.identifier.pebble' }, // 'Live'
+                    { startIndex: 10, type: '' },
+                    { startIndex: 11, type: 'delimiter.bracket.pebble' } // '{'
+                ]
+            }
+        ],
+        // v0.3.0 — data struct declaration: `data` is a modifier, `struct` a keyword
+        [
+            {
+                line: 'data struct Order {',
+                tokens: [
+                    { startIndex: 0, type: 'keyword.pebble' }, // 'data'
+                    { startIndex: 4, type: '' },
+                    { startIndex: 5, type: 'keyword.pebble' }, // 'struct'
+                    { startIndex: 11, type: '' },
+                    { startIndex: 12, type: 'type.identifier.pebble' }, // 'Order'
+                    { startIndex: 17, type: '' },
+                    { startIndex: 18, type: 'delimiter.bracket.pebble' } // '{'
+                ]
+            }
+        ],
+        // v0.3.0 — contract with parameters
+        [
+            {
+                line: 'contract OneShot {',
+                tokens: [
+                    { startIndex: 0, type: 'keyword.pebble' }, // 'contract'
+                    { startIndex: 8, type: '' },
+                    { startIndex: 9, type: 'type.identifier.pebble' }, // 'OneShot'
+                    { startIndex: 16, type: '' },
+                    { startIndex: 17, type: 'delimiter.bracket.pebble' } // '{'
+                ]
+            }
+        ],
+        // v0.3.0 — match arm prefix `when`
+        [
+            {
+                line: 'when Some{ value }:',
+                tokens: [
+                    { startIndex: 0, type: 'keyword.control.pebble' }, // 'when'
+                    { startIndex: 4, type: '' },
+                    { startIndex: 5, type: 'type.identifier.pebble' }, // 'Some'
+                    { startIndex: 9, type: 'delimiter.bracket.pebble' }, // '{'
+                    { startIndex: 10, type: '' },
+                    { startIndex: 11, type: 'identifier.pebble' }, // 'value'
+                    { startIndex: 16, type: '' },
+                    { startIndex: 17, type: 'delimiter.bracket.pebble' }, // '}'
+                    { startIndex: 18, type: 'delimiter.pebble' } // ':'
+                ]
+            }
+        ],
+        // v0.3.0 — using statement with dotted path
+        [
+            {
+                line: 'using { fromList } = std.array;',
+                tokens: [
+                    { startIndex: 0, type: 'keyword.pebble' }, // 'using'
+                    { startIndex: 5, type: '' },
+                    { startIndex: 6, type: 'delimiter.bracket.pebble' }, // '{'
+                    { startIndex: 7, type: '' },
+                    { startIndex: 8, type: 'identifier.pebble' }, // 'fromList'
+                    { startIndex: 16, type: '' },
+                    { startIndex: 17, type: 'delimiter.bracket.pebble' }, // '}'
+                    { startIndex: 18, type: '' },
+                    { startIndex: 19, type: 'delimiter.pebble' }, // '='
+                    { startIndex: 20, type: '' },
+                    { startIndex: 21, type: 'identifier.pebble' }, // 'std'
+                    { startIndex: 24, type: 'delimiter.pebble' }, // '.'
+                    { startIndex: 25, type: 'identifier.pebble' }, // 'array'
+                    { startIndex: 30, type: 'delimiter.pebble' } // ';'
+                ]
+            }
+        ],
+        // v0.3.0 — `is Pattern` test in assert
+        [
+            {
+                line: 'assert opt is None;',
+                tokens: [
+                    { startIndex: 0, type: 'keyword.control.pebble' }, // 'assert'
+                    { startIndex: 6, type: '' },
+                    { startIndex: 7, type: 'identifier.pebble' }, // 'opt'
+                    { startIndex: 10, type: '' },
+                    { startIndex: 11, type: 'keyword.control.pebble' }, // 'is'
+                    { startIndex: 13, type: '' },
+                    { startIndex: 14, type: 'type.identifier.pebble' }, // 'None'
+                    { startIndex: 18, type: 'delimiter.pebble' } // ';'
+                ]
+            }
+        ],
+        // v0.3.0 — hex byte literal
+        [
+            {
+                line: 'const h: bytes = #deadbeef;',
+                tokens: [
+                    { startIndex: 0, type: 'keyword.pebble' }, // 'const'
+                    { startIndex: 5, type: '' },
+                    { startIndex: 6, type: 'identifier.constant.pebble' }, // 'h'
+                    { startIndex: 7, type: 'delimiter.pebble' }, // ':'
+                    { startIndex: 8, type: '' },
+                    { startIndex: 9, type: 'type.identifier.pebble' }, // 'bytes'
+                    { startIndex: 14, type: '' },
+                    { startIndex: 15, type: 'delimiter.pebble' }, // '='
+                    { startIndex: 16, type: '' },
+                    { startIndex: 17, type: 'number.hex.pebble' }, // '#deadbeef'
+                    { startIndex: 26, type: 'delimiter.pebble' } // ';'
+                ]
+            }
+        ],
+        // v0.3.0 — generic type argument `List<int>`
+        [
+            {
+                line: 'function f(xs: List<int>): int {',
+                tokens: [
+                    { startIndex: 0, type: 'keyword.pebble' }, // 'function'
+                    { startIndex: 8, type: '' },
+                    { startIndex: 9, type: 'entity.name.function.pebble' }, // 'f'
+                    { startIndex: 10, type: 'delimiter.parenthesis.pebble' }, // '('
+                    { startIndex: 11, type: 'identifier.pebble' }, // 'xs'
+                    { startIndex: 13, type: 'delimiter.pebble' }, // ':'
+                    { startIndex: 14, type: '' },
+                    { startIndex: 15, type: 'type.identifier.pebble' }, // 'List'
+                    { startIndex: 19, type: 'delimiter.pebble' }, // '<'
+                    { startIndex: 20, type: 'type.identifier.pebble' }, // 'int'
+                    { startIndex: 23, type: 'delimiter.pebble' }, // '>'
+                    { startIndex: 24, type: 'delimiter.parenthesis.pebble' }, // ')'
+                    { startIndex: 25, type: 'delimiter.pebble' }, // ':'
+                    { startIndex: 26, type: '' },
+                    { startIndex: 27, type: 'type.identifier.pebble' }, // 'int'
+                    { startIndex: 30, type: '' },
+                    { startIndex: 31, type: 'delimiter.bracket.pebble' } // '{'
                 ]
             }
         ]
