@@ -183579,7 +183579,7 @@ define(__m[877/*vs/editor/editor.main*/], __M([1/*require*/,0/*exports*/,875/*vs
 
 /*!-----------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.3.0(ac52b6cdaca99cc013737a6bc5384d119217cc53)
+ * Version: 0.3.0(99258a6af3cc9bfb468fb888a11f1b9443942772)
  * Released under the MIT license
  * https://github.com/microsoft/monaco-editor/blob/main/LICENSE.txt
  *-----------------------------------------------------------------------------*/
@@ -185147,7 +185147,7 @@ return moduleExports;
 
 /*!-----------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.3.0(ac52b6cdaca99cc013737a6bc5384d119217cc53)
+ * Version: 0.3.0(99258a6af3cc9bfb468fb888a11f1b9443942772)
  * Released under the MIT license
  * https://github.com/microsoft/monaco-editor/blob/main/LICENSE.txt
  *-----------------------------------------------------------------------------*/
@@ -185335,7 +185335,7 @@ return moduleExports;
 
 /*!-----------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.3.0(ac52b6cdaca99cc013737a6bc5384d119217cc53)
+ * Version: 0.3.0(99258a6af3cc9bfb468fb888a11f1b9443942772)
  * Released under the MIT license
  * https://github.com/microsoft/monaco-editor/blob/main/LICENSE.txt
  *-----------------------------------------------------------------------------*/
@@ -185532,7 +185532,7 @@ return moduleExports;
 
 /*!-----------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.3.0(ac52b6cdaca99cc013737a6bc5384d119217cc53)
+ * Version: 0.3.0(99258a6af3cc9bfb468fb888a11f1b9443942772)
  * Released under the MIT license
  * https://github.com/microsoft/monaco-editor/blob/main/LICENSE.txt
  *-----------------------------------------------------------------------------*/
@@ -185679,7 +185679,7 @@ return moduleExports;
 
 /*!-----------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.3.0(ac52b6cdaca99cc013737a6bc5384d119217cc53)
+ * Version: 0.3.0(99258a6af3cc9bfb468fb888a11f1b9443942772)
  * Released under the MIT license
  * https://github.com/microsoft/monaco-editor/blob/main/LICENSE.txt
  *-----------------------------------------------------------------------------*/
